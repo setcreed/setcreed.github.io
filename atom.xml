@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>朝闻道，夕死可矣</title>
+  
+  
+  <link href="https://setcreed.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://setcreed.github.io/"/>
+  <updated>2021-04-01T01:24:04.692Z</updated>
+  <id>https://setcreed.github.io/</id>
+  
+  <author>
+    <name>SetCreed</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://setcreed.github.io/post/4a17b156.html"/>
+    <id>https://setcreed.github.io/post/4a17b156.html</id>
+    <published>2021-04-01T01:24:04.692Z</published>
+    <updated>2021-04-01T01:24:04.692Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>代码测试</title>
+    <link href="https://setcreed.github.io/post/f8915431.html"/>
+    <id>https://setcreed.github.io/post/f8915431.html</id>
+    <published>2021-03-21T12:14:25.000Z</published>
+    <updated>2021-04-01T01:24:04.692Z</updated>
+    
+    <content type="html"><![CDATA[<p>代码测试案例：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">短网址生成代码。Flask 演示</span></span><br><span class="line"><span class="string">依赖本地 mysql 和 redis</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, jsonify, render_template, request</span><br><span class="line"><span class="keyword">from</span> flask_mysqldb <span class="keyword">import</span> MySQL</span><br><span class="line"><span class="keyword">from</span> flask.ext.redis <span class="keyword">import</span> FlaskRedis</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config[<span class="string">&#x27;MYSQL_USER&#x27;</span>] = <span class="string">&#x27;root&#x27;</span></span><br><span class="line">app.config[<span class="string">&#x27;MYSQL_PASSWORD&#x27;</span>] = os.getenv(<span class="string">&#x27;MYSQL_PASS&#x27;</span>) <span class="comment"># export your password</span></span><br><span class="line">app.config[<span class="string">&#x27;MYSQL_DB&#x27;</span>] = <span class="string">&#x27;test&#x27;</span></span><br><span class="line">app.config[<span class="string">&#x27;MYSQL_CURSORCLASS&#x27;</span>] = <span class="string">&#x27;DictCursor&#x27;</span></span><br><span class="line"></span><br><span class="line">mysql = MySQL(app)</span><br><span class="line">redis_store = FlaskRedis(app)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CHARS = <span class="string">&quot;abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ0123456789&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode</span>(<span class="params">num</span>):</span></span><br><span class="line">    <span class="keyword">if</span> num == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> CHARS[<span class="number">0</span>]</span><br><span class="line">    res = []</span><br><span class="line">    <span class="keyword">while</span> num:</span><br><span class="line">        num, rem = <span class="built_in">divmod</span>(num, <span class="built_in">len</span>(CHARS))  <span class="comment"># 62</span></span><br><span class="line">        res.append(CHARS[rem])</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">reversed</span>(res))</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/shorten&#x27;</span>, methods=[<span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">shorten_url</span>():</span></span><br><span class="line">    long_url = request.json[<span class="string">&#x27;url&#x27;</span>]</span><br><span class="line">    index = <span class="built_in">int</span>(redis_store.incr(<span class="string">&#x27;SHORT_CNT&#x27;</span>))</span><br><span class="line">    token = encode(index)</span><br><span class="line">    sql = <span class="string">&quot;INSERT INTO short_url(token, url) VALUES(%s, %s)&quot;</span></span><br><span class="line">    cur = mysql.connection.cursor()</span><br><span class="line">    cur.execute(sql, (token, long_url))</span><br><span class="line">    mysql.connection.commit()</span><br><span class="line">    short_url = <span class="string">&#x27;https://short.com/&#x27;</span> + token</span><br><span class="line">    <span class="keyword">return</span> jsonify(url=short_url)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>():</span></span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&#x27;index.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run(debug=<span class="number">1</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;代码测试案例：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>标签外挂</title>
+    <link href="https://setcreed.github.io/post/54667693.html"/>
+    <id>https://setcreed.github.io/post/54667693.html</id>
+    <published>2021-03-21T12:14:04.000Z</published>
+    <updated>2021-04-01T01:24:04.692Z</updated>
+    
+    <content type="html"><![CDATA[<div class="note simple"><p>默认 提示块标籤</p></div><div class="note default simple"><p>default 提示块标籤</p></div><div class="note primary simple"><p>primary 提示块标籤</p></div><div class="note success simple"><p>success 提示块标籤</p></div><div class="note info simple"><p>info 提示块标籤</p></div><div class="note warning simple"><p>warning 提示块标籤</p></div><div class="note danger simple"><p>danger 提示块标籤</p></div><div class="tabs" id="test"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test-1">python</button></li><li class="tab"><button type="button" data-href="#test-2">java</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test-1"><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">&quot;hello world&quot;</span>)</span><br></pre></td></tr></table></figure><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test-2"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">hello</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello world!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div><div class="note icon simple"><i class="note-icon fab fa-cc-visa"></i><p>你是刷 Visa 还是 UnionPay</p></div><div class="note blue icon simple"><i class="note-icon fas fa-bullhorn"></i><p>2021年快到了….</p></div><div class="note pink icon simple"><i class="note-icon fas fa-car-crash"></i><p>小心开车 安全至上</p></div><div class="note red icon simple"><i class="note-icon fas fa-fan"></i><p>这是三片呢？还是四片？</p></div><div class="note orange icon simple"><i class="note-icon fas fa-battery-half"></i><p>你是刷 Visa 还是 UnionPay</p></div><div class="note purple icon simple"><i class="note-icon far fa-hand-scissors"></i><p>剪刀石头布</p></div><div class="note green icon simple"><i class="note-icon fab fa-internet-explorer"></i><p>前端最讨厌的浏览器</p></div><div class="mermaid">pie    title Key elements in Product X    &quot;Calcium&quot; : 42.96    &quot;Potassium&quot; : 50.05    &quot;Magnesium&quot; : 10.01    &quot;Iron&quot; :  5</div><p>你看我长得漂亮不</p><p><img src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/03/19/2P6ivUGsdaEXSFI.png" alt=""></p><p>我觉得很漂亮 <img class="inline-img" src= "/img/loading.gif" data-lazy-src="https://i.loli.net/2021/03/19/5M4jUB3ynq7ePgw.png" style="height:150px"/></p><p>$\int_a^b f(x)dx$</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;div class=&quot;note simple&quot;&gt;&lt;p&gt;默认 提示块标籤&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;note default simple&quot;&gt;&lt;p&gt;default 提示块标籤&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;note primary simple</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>测试</title>
+    <link href="https://setcreed.github.io/post/9daba997.html"/>
+    <id>https://setcreed.github.io/post/9daba997.html</id>
+    <published>2021-03-20T14:48:13.000Z</published>
+    <updated>2021-04-01T01:24:04.692Z</updated>
+    
+    <content type="html"><![CDATA[<p>写点东西</p><p><img src= "/img/loading.gif" data-lazy-src="/img/404.jpg" alt=""></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;写点东西&lt;/p&gt;
+&lt;p&gt;&lt;img src= &quot;/img/loading.gif&quot; data-lazy-src=&quot;/img/404.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
