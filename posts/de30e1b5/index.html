@@ -1,0 +1,554 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>01-命令行基础 | 伊甸园</title><meta name="author" content="SetCreed"><meta name="copyright" content="SetCreed"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="使用习惯 类Unix系统通用的使用习惯 shell 用于运行系统指令的程序 shell中运行的多条系统指令可形成shell脚本 Bourne Shell（贝尔实验室） Bourne-again：Bash（ubuntu默认采用） 通常称为终端   命令提示符 name@host:path$ name@host:path#    基本shell命令 基本命令 cat &#x2F;etc&#x2F;passwd（合并显示多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="01-命令行基础">
+<meta property="og:url" content="https://setcreed.github.io/posts/de30e1b5/index.html">
+<meta property="og:site_name" content="伊甸园">
+<meta property="og:description" content="使用习惯 类Unix系统通用的使用习惯 shell 用于运行系统指令的程序 shell中运行的多条系统指令可形成shell脚本 Bourne Shell（贝尔实验室） Bourne-again：Bash（ubuntu默认采用） 通常称为终端   命令提示符 name@host:path$ name@host:path#    基本shell命令 基本命令 cat &#x2F;etc&#x2F;passwd（合并显示多">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252316439.jpg">
+<meta property="article:published_time" content="2022-02-25T15:25:29.000Z">
+<meta property="article:modified_time" content="2023-01-23T05:20:38.675Z">
+<meta property="article:author" content="SetCreed">
+<meta property="article:tag" content="ubuntu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252316439.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://setcreed.github.io/posts/de30e1b5/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的内容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '01-命令行基础',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-23 13:20:38'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/custom/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/custom/icon.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="伊甸园" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">79</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 读书</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252316439.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="伊甸园"><span class="site-name">伊甸园</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 读书</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">01-命令行基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2022-02-25T15:25:29.000Z" title="发表于 2022-02-25 23:25:29">2022-02-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/ubuntu/">ubuntu</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="01-命令行基础"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="使用习惯"><a href="#使用习惯" class="headerlink" title="使用习惯"></a>使用习惯</h2><ul>
+<li>类Unix系统通用的使用习惯</li>
+<li>shell<ul>
+<li>用于运行系统指令的程序</li>
+<li>shell中运行的多条系统指令可形成shell脚本</li>
+<li>Bourne Shell（贝尔实验室）</li>
+<li>Bourne-again：Bash（ubuntu默认采用）</li>
+<li>通常称为终端</li>
+</ul>
+</li>
+<li>命令提示符<ul>
+<li>name@host:path$</li>
+<li>name@host:path#</li>
+</ul>
+</li>
+</ul>
+<h1 id="基本shell命令"><a href="#基本shell命令" class="headerlink" title="基本shell命令"></a>基本shell命令</h1><ul>
+<li>基本命令<ul>
+<li>cat /etc/passwd（合并显示多个文件内容）</li>
+</ul>
+</li>
+<li>输入输出<ul>
+<li>进程通过输入输出流读写数据</li>
+<li>默认输入输出称为 stdin / stdout</li>
+<li>cat命令的默认I/O就是终端</li>
+<li>第三个标准流stderr</li>
+</ul>
+</li>
+<li>Ctrl-D结束当前输入</li>
+<li>Ctrl-C无论当前情况强制结束</li>
+</ul>
+<h1 id="ls-列出目录内容"><a href="#ls-列出目录内容" class="headerlink" title="ls-列出目录内容"></a>ls-列出目录内容</h1><ul>
+<li>ls -l 详细内容(权限、inode占用数量、属主、属组、大小、修改时间或创建时间、文件或文件夹名字)</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200305145611.png" alt=""></p>
+<p><strong>inode：对一个硬盘分区，可以把划分出来的分区进一步 的分成一个个的存储单元的小块，每一个小块对应着一个个的inode编号。比如说有100M的分区，1M作为一个数据块，把数据块进行编号。第一个数据块就是1号，第100块就是100号。也就是说，这一个分区最多能存多少文件，由inode来决定的。操作系统来使用硬盘存储空间的时候，一次性存储一个文件就要占用一个inode号，不是按照字节来计算的，是按照每一个inode号对应的存储空间的块来使用存储空间的。比如说，一个inode对映数据块是1M的话，那么100M的存储空间只能有100个inode号，这样哪怕你只存一个字节的文件在硬盘上，也会占用1M的空间。这样会导致，哪怕你的存储物理空间没有被耗尽，但是你的inode号被耗尽了，也会导致你的物理硬盘不能再存储新的文件。</strong></p>
+<h2 id="ls-a-包括隐藏的所有内容"><a href="#ls-a-包括隐藏的所有内容" class="headerlink" title="ls -a 包括隐藏的所有内容"></a>ls -a 包括隐藏的所有内容</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200305145948.png" alt=""></p>
+<h2 id="ls-d-只显示目录自身信息，显示所在目录本身的信息"><a href="#ls-d-只显示目录自身信息，显示所在目录本身的信息" class="headerlink" title="ls -d 只显示目录自身信息，显示所在目录本身的信息"></a>ls -d 只显示目录自身信息，显示所在目录本身的信息</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200305150005.png" alt=""></p>
+<p>结合使用：<code>ls -dl</code></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200305150211.png" alt=""></p>
+<p>显示  点  目录本身的信息</p>
+<h2 id="ls-i-显示inode信息"><a href="#ls-i-显示inode信息" class="headerlink" title="ls -i 显示inode信息"></a>ls -i 显示inode信息</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200305150339.png" alt=""></p>
+<h2 id="ls-S-按文件从大到小排序-ls-Sr按文件从小到大排序"><a href="#ls-S-按文件从大到小排序-ls-Sr按文件从小到大排序" class="headerlink" title="ls -S 按文件从大到小排序, ls -Sr按文件从小到大排序"></a>ls -S 按文件从大到小排序, ls -Sr按文件从小到大排序</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200305150408.png" alt=""></p>
+<h2 id="ls-r-倒叙排列"><a href="#ls-r-倒叙排列" class="headerlink" title="ls -r 倒叙排列"></a>ls -r 倒叙排列</h2><h2 id="ls-t-按修改时间排序"><a href="#ls-t-按修改时间排序" class="headerlink" title="ls -t 按修改时间排序"></a>ls -t 按修改时间排序</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212101700.png" alt=""></p>
+<h2 id="ls-h-文件大小以便于人类阅读的方式显示"><a href="#ls-h-文件大小以便于人类阅读的方式显示" class="headerlink" title="ls -h 文件大小以便于人类阅读的方式显示"></a>ls -h 文件大小以便于人类阅读的方式显示</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212101804.png" alt=""></p>
+<h2 id="l-l-ls-la-显示所有文件详情，包括隐藏文件信息"><a href="#l-l-ls-la-显示所有文件详情，包括隐藏文件信息" class="headerlink" title="l l  == ls -la   显示所有文件详情，包括隐藏文件信息"></a>l l  == ls -la   显示所有文件详情，包括隐藏文件信息</h2><p>在其他发行版本可能没有这个命令</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212101915.png" alt=""></p>
+<h1 id="cp-拷贝"><a href="#cp-拷贝" class="headerlink" title="cp -拷贝"></a>cp -拷贝</h1><ul>
+<li>cp file1 file2</li>
+<li>cp file1 dir/file2 </li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212101956.png" alt=""></p>
+<ul>
+<li>cp -R/r 拷贝目录及其中全部内容</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212102054.png" alt=""></p>
+<ul>
+<li>cp -l 硬链接拷贝（ls -li） 如 ：cp -l a a2  这样拷贝inode值是一样的</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212102202.png" alt=""></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212102250.png" alt=""></p>
+<p><strong>硬链接也就是 同一个数据起了两个名字</strong></p>
+<ul>
+<li>cp -s 软链接拷贝    相当于快捷方式</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212102351.png" alt=""></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212102440.png" alt=""></p>
+<p>如果a删除了, a3就不能访问到a</p>
+<ul>
+<li><p>cp -u 源比目标新时才拷贝</p>
+<ul>
+<li>复制文件，只有源文件file1较目的文件file2的修改时间新时，才复制文件<br>cp -u file1 file2</li>
+</ul>
+</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>-f</th>
+<th>若目标文件已存在，则会直接覆盖原文件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-i</td>
+<td>若目标文件已存在，则会询问是否覆盖</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>保留源文件或目录的所有属性</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>递归复制文件和目录</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>当复制符号连接时，把目标文件或目录也建立为符号连接，并指向与源文件或目录连接的原始文件或目录</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>对源文件建立硬连接，而非复制文件</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>对源文件建立符号连接，而非复制文件</td>
+</tr>
+<tr>
+<td>-b</td>
+<td>覆盖已存在的文件目标前将目标文件备份</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>详细显示cp命令执行的操作过程</td>
+</tr>
+<tr>
+<td>-a</td>
+<td>等价于“dpr”选项</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="mv-移动"><a href="#mv-移动" class="headerlink" title="mv-移动"></a>mv-移动</h1><ul>
+<li>mv file1 file2    相当于重命名</li>
+<li>mv file1 file2 dir/     移动文件到目录</li>
+<li>mv -f  强制移动、覆盖目标</li>
+</ul>
+<h1 id="touch-创建空文件"><a href="#touch-创建空文件" class="headerlink" title="touch-创建空文件"></a>touch-创建空文件</h1><ul>
+<li>若文件名存在，修改文件mtime，但不修改内容</li>
+<li>touch file</li>
+</ul>
+<h1 id="rm-删除"><a href="#rm-删除" class="headerlink" title="rm-删除"></a>rm-删除</h1><ul>
+<li>rm filename      删除文件</li>
+<li>rm -rf dir/     递归删除</li>
+<li>rm -i  每删除前提醒</li>
+<li>rm -d   删除空目录</li>
+</ul>
+<h1 id="echo-将命令行参数显示在stdout"><a href="#echo-将命令行参数显示在stdout" class="headerlink" title="echo- 将命令行参数显示在stdout"></a>echo- 将命令行参数显示在stdout</h1><ul>
+<li><p>echo hello world!</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">chengwz@Ubuntu:~$ echo &quot;hello world!&quot;</span><br><span class="line">hello world!</span><br><span class="line"></span><br><span class="line">chengwz@Ubuntu:~$ echo \&quot;hello world\!\&quot;</span><br><span class="line">&quot;hello world!&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>echo -n  显示结束不换行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chengwz@Ubuntu:~$ echo -n a </span><br><span class="line">achengwz@Ubuntu:~$ </span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>echo -e   解释反斜线转义符</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">chengwz@Ubuntu:~$ echo a</span><br><span class="line">a</span><br><span class="line">chengwz@Ubuntu:~$ echo a\n</span><br><span class="line">an</span><br><span class="line">chengwz@Ubuntu:~$ echo -e a\n</span><br><span class="line">an</span><br><span class="line">chengwz@Ubuntu:~$ echo -e a\\n</span><br><span class="line">a</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">这里换行</span></span><br><span class="line">chengwz@Ubuntu:~$ echo -ne 123\\b</span><br><span class="line">12chengwz@Ubuntu:~$ </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>echo $HOME</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chengwz@Ubuntu:~$ echo $HOME</span><br><span class="line">/home/chengwz</span><br><span class="line">chengwz@Ubuntu:~$ echo $SHELL</span><br><span class="line">/bin/bash</span><br><span class="line">chengwz@Ubuntu:~$ echo $USER</span><br><span class="line">chengwz</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="pwd"><a href="#pwd" class="headerlink" title="pwd"></a>pwd</h1><p>查看当前完整目录</p>
+<ul>
+<li>适用于提示符不显示完整路径</li>
+<li><code>pwd -P</code>   物理路径（软连接对应的正式路径）</li>
+<li><code>pwd -L</code>   逻辑路径（软连接自身路径）</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212102510.png" alt=""></p>
+<h1 id="mkdir"><a href="#mkdir" class="headerlink" title="mkdir"></a>mkdir</h1><p>mkdir dir 创建目录</p>
+<p><code>mkdir -p a/b/c/d</code> 按需创建多层目录</p>
+<h1 id="rmdir"><a href="#rmdir" class="headerlink" title="rmdir"></a>rmdir</h1><p>只能删除空目录</p>
+<p><code>rmdir -p a/b/c</code></p>
+<h1 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h1><p>grep是“global search regular expression and print out the line”的简称，意思是全面搜索正则表达式，并将其打印出来。这个命令可以结合正则表达式使用，它也是linux使用最为广泛的命令。</p>
+<p>linux系统支持三种形式的grep命令，大儿子就是grep，标准，模仿的代表。二儿子兴趣爱好多-egrep，简称扩展grep命令，其实和grep -E等价，支持基本和扩展的正则表达式。小儿子跑的最快-fgrep，简称快速grep命令，其实和grep -F等价，不支持正则表达式，按照字符串表面意思进行匹配。</p>
+<p><strong>常用参数：</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>-i</th>
+<th>搜索时，忽略大小写</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-c</td>
+<td>只输出匹配行的数量</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>只列出符合匹配的文件名，不列出具体的匹配行</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>列出所有的匹配行，显示行号</td>
+</tr>
+<tr>
+<td>-h</td>
+<td>查询多文件时不显示文件名</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>不显示不存在、没有匹配文本的错误信息</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示不包含匹配文本的所有行</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>匹配整词</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>匹配整行</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>递归搜索</td>
+</tr>
+<tr>
+<td>-q</td>
+<td>禁止输出任何结果，已退出状态表示搜索是否成功</td>
+</tr>
+<tr>
+<td>-b</td>
+<td>打印匹配行距文件头部的偏移量，以字节为单位</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>与-b结合使用，打印匹配的词据文件头部的偏移量，以字节为单位</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="less"><a href="#less" class="headerlink" title="less"></a>less</h1><p>每次一页显示输出内容， 是more的增强版</p>
+<p><code>less file</code></p>
+<p>快捷键：</p>
+<ul>
+<li>z/b   向前/后翻一页</li>
+<li>v        进入编辑模式</li>
+<li>g/G     直接跳到第一行/最后一行</li>
+<li>/word    向前搜索关键词</li>
+<li>?word     向后搜索关键词</li>
+<li>n/N      正向/反向继续搜索关键词</li>
+<li>q      退出</li>
+</ul>
+<h1 id="head-tail"><a href="#head-tail" class="headerlink" title="head / tail"></a>head / tail</h1><ul>
+<li>显示文件头部 / 尾部内容</li>
+<li>默认显示10行</li>
+<li>加参数<code>-n</code>    <code>head c1.txt -n 4</code>或者<code>head -4 c1.txt</code>   n后面指定显示的行数</li>
+<li>tail 加 <code>-f</code>参数   <code>tail -f c2.txt</code>实时更新数据</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212102715.png" alt=""></p>
+<h1 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h1><h2 id="比较文本文件"><a href="#比较文本文件" class="headerlink" title="比较文本文件"></a>比较文本文件</h2><p><code>diff file1 file2</code></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212102742.png" alt=""></p>
+<p><code>diff -u file1 file2</code></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212102827.png" alt=""></p>
+<p><code>diff -y 1.txt 2.txt</code>   配合<code>-W</code>参数限制宽度</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212103158.png" alt=""></p>
+<p><code>diff -y -i 1.txt 2.txt</code>  <code>-i</code> 参数忽略大小写</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212103223.png" alt=""></p>
+<h2 id="比较文件夹"><a href="#比较文件夹" class="headerlink" title="比较文件夹"></a>比较文件夹</h2><p><code>diff a/ b/</code></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212103326.png" alt=""></p>
+<h1 id="file命令"><a href="#file命令" class="headerlink" title="file命令"></a>file命令</h1><h2 id="检测文件格式"><a href="#检测文件格式" class="headerlink" title="检测文件格式"></a>检测文件格式</h2><ul>
+<li>空文件或特定数据格式的文件</li>
+</ul>
+<h2 id="顺序执行三种测试集"><a href="#顺序执行三种测试集" class="headerlink" title="顺序执行三种测试集"></a>顺序执行三种测试集</h2><ul>
+<li>filesystem： 匹配系统头文件<code>&lt;sys/stat.h&gt;</code></li>
+<li>magic：匹配文件头部魔术值， 用<code>file -l</code>参数查看</li>
+<li>language：匹配文件起始的字符类型，如 ASCII、UTF8</li>
+<li>三种匹配模式都不匹配返回  这是一个data文件</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212103345.png" alt=""></p>
+<p><code>file -f 文件列表</code>  查看多个文件</p>
+<p><code>file -b</code> 省略文件名信息</p>
+<p><code>file -i</code> 显示mime类型</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212103406.png" alt=""></p>
+<h1 id="find-locate"><a href="#find-locate" class="headerlink" title="find / locate"></a>find / locate</h1><p>locate 基于文件索引进行搜索，会定期的在操作系统中把所有的文件名做一个索引，把这个信息保存起来</p>
+<ul>
+<li>不验证文件是否存在，速度快但结果不准确</li>
+<li>周期性更新索引， 可以手动更新索引：<code>sudo updatedb</code></li>
+</ul>
+<h2 id="find-通过文件名查找"><a href="#find-通过文件名查找" class="headerlink" title="find 通过文件名查找"></a>find 通过文件名查找</h2><p><code>sudo find / -name 1.txt</code>   查找1.txt文件，但不知道在哪个文件夹</p>
+<p>支持通配符: <code>sudo find / -name a*.txt</code></p>
+<h2 id="find根据文件类型查找："><a href="#find根据文件类型查找：" class="headerlink" title="find根据文件类型查找："></a>find根据文件类型查找：</h2><p><code>find -type d</code> 找目录       <code>find -type f</code> 找文件         <code>find -type l</code> 找链接</p>
+<h2 id="find时间相关的用法"><a href="#find时间相关的用法" class="headerlink" title="find时间相关的用法"></a>find时间相关的用法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">find / -mtime +1      <span class="comment"># 找1分钟之前的文件</span></span><br><span class="line">find / -mtime +1 -mtime -20   <span class="comment"># 限定时间 1分钟到20分钟</span></span><br><span class="line"></span><br><span class="line">find / -cnewer file     <span class="comment"># 从根目录找到比file文件更新的文件</span></span><br></pre></td></tr></table></figure>
+<h1 id="stat命令"><a href="#stat命令" class="headerlink" title="stat命令"></a>stat命令</h1><p><strong>stat命令</strong>用于显示文件的状态信息。stat命令的输出信息比<code>ls</code>命令的输出信息要更详细。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200130193420.png" alt=""></p>
+<p>简单的介绍一下stat命令显示出来的文件其他信息： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- File：显示文件名 </span><br><span class="line">- Size：显示文件大小 </span><br><span class="line">- Blocks：文件使用的数据块总数 </span><br><span class="line">- IO Block：IO块大小 </span><br><span class="line">- regular file：文件类型（常规文件） </span><br><span class="line">- Device：设备编号 </span><br><span class="line">- Inode：Inode号 </span><br><span class="line">- Links：链接数 </span><br><span class="line">- Access：文件的权限 </span><br><span class="line">- Gid、Uid：文件所有权的Gid和Uid。</span><br></pre></td></tr></table></figure>
+<p><strong>Linux下的三个时间：</strong> </p>
+<ol>
+<li>Access Time：简写为atime，表示文件的访问时间。当文件内容被访问时，更新这个时间 </li>
+<li>Modify Time：简写为mtime，表示文件内容的修改时间，当文件的数据内容被修改时，更新这个时间。 </li>
+<li>Change Time：简写为ctime，表示文件的状态时间，当文件的状态被修改时，更新这个时间，例如文件的链接数，大小，权限，Blocks数。</li>
+</ol>
+<h1 id="sort命令"><a href="#sort命令" class="headerlink" title="sort命令"></a>sort命令</h1><p>将文件内容进行排序，默认按文件内容的数字字母排序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sort</span> a.txt</span><br><span class="line"></span><br><span class="line"><span class="built_in">sort</span> -r      <span class="comment"># 反向排序</span></span><br><span class="line"><span class="built_in">sort</span> -n     <span class="comment"># 按数值大小排序</span></span><br><span class="line"><span class="built_in">sort</span> M      <span class="comment"># 按月份排序</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">ls</span> -l --<span class="built_in">sort</span>=key     <span class="comment"># ls中按照什么排序 </span></span><br><span class="line">  - ‘none’</span><br><span class="line">  - ‘time’</span><br><span class="line">  - ‘size’</span><br><span class="line">  - ‘extension’</span><br><span class="line">  - ‘version’</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="获取帮助"><a href="#获取帮助" class="headerlink" title="获取帮助"></a>获取帮助</h1><h2 id="man"><a href="#man" class="headerlink" title="man"></a>man</h2><p>Linux系统有完善的文档体系，Manual是最主要的帮助</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">man <span class="built_in">ls</span>         <span class="comment"># 列出ls命令的详细的参数命令</span></span><br><span class="line"></span><br><span class="line">man -k scanner      <span class="comment"># 描述信息，列出想scanner的命令</span></span><br></pre></td></tr></table></figure>
+<p>每个命令的手册页可以使用数字编号引用片段（section）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">man 5 passwd   <span class="comment"># 按照section查看</span></span><br><span class="line"></span><br><span class="line">- 1：用户命令</span><br><span class="line">- 2：系统调用</span><br><span class="line">- 3：高级Unix编程文档</span><br><span class="line">- 4：设备接口和驱动信息（很少使用）</span><br><span class="line">- 5：文件描述（系统配置文件）</span><br><span class="line">- 6：Games，游戏相关</span><br><span class="line">- 7：文件格式，惯例，编码</span><br><span class="line">- 8：系统命令和服务器</span><br></pre></td></tr></table></figure>
+<h2 id="info"><a href="#info" class="headerlink" title="info"></a>info</h2><p>GNU项目不太喜欢man命令，开发了info，用法和man类似</p>
+<p>有时优于man，有时不是</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/share/doc      <span class="comment"># 这个目录下会有帮助文档</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">ls</span> --<span class="built_in">help</span> / <span class="built_in">ls</span> -h</span><br></pre></td></tr></table></figure>
+<h1 id="Shell输入与输出"><a href="#Shell输入与输出" class="headerlink" title="Shell输入与输出"></a>Shell输入与输出</h1><h2 id="输出重定向"><a href="#输出重定向" class="headerlink" title="输出重定向"></a>输出重定向</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cwz@u:~$ <span class="built_in">ls</span> a/</span><br><span class="line">1  2  3</span><br><span class="line">cwz@u:~$ <span class="built_in">ls</span> a/ &gt; file </span><br><span class="line">cwz@u:~$ <span class="built_in">ls</span></span><br><span class="line">a  b  file</span><br><span class="line">cwz@u:~$ <span class="built_in">cat</span> file </span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用&gt; 会覆盖重定向内容</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> -C</span><br><span class="line"><span class="built_in">ls</span> a/ &gt; file      <span class="comment"># 这样就不会覆盖了</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 追加</span></span><br><span class="line"><span class="built_in">ls</span> a/ &gt;&gt; file</span><br></pre></td></tr></table></figure>
+<h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><p>前面的输出作为后面的输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig | grep inet | awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="标准输入重定向"><a href="#标准输入重定向" class="headerlink" title="标准输入重定向"></a>标准输入重定向</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">head</span> &lt; /proc/cpuinfo</span><br></pre></td></tr></table></figure>
+<h2 id="标准错误"><a href="#标准错误" class="headerlink" title="标准错误"></a>标准错误</h2><p>stderr，报错包含重要信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 0代表标准输入、1代表标准输出、2代表标准错误</span></span><br><span class="line"><span class="built_in">ls</span> b 2&gt; err         <span class="comment"># 将标准错误输出到文件err</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">ls</span> a/ &gt;f 2&gt;&amp;1      <span class="comment"># 将标准输出、标准错误输出到文件f</span></span><br></pre></td></tr></table></figure>
+<p>常见的保存信息</p>
+<ul>
+<li>No such file or directory（查看不存在的文件目录）</li>
+<li>FIle exists（创建与文件同名的目录）</li>
+<li>Not a directory，is a directory（把文件当目录）</li>
+<li>No space left on device（磁盘空间不足）</li>
+<li>Permission denied（权限不足）</li>
+<li>Operation not permitted（杀掉不属于自己的进程）</li>
+<li>Segmentation fault，Bus error（程序访问禁用内存）s</li>
+</ul>
+<h1 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h1><h2 id="进程就是运行中的程序文件"><a href="#进程就是运行中的程序文件" class="headerlink" title="进程就是运行中的程序文件"></a>进程就是运行中的程序文件</h2><ul>
+<li>PID：进程ID</li>
+<li>TTY：运行进程中的终端设备</li>
+<li>STAT：进程状态（Sleep、Running）</li>
+<li>TIME：该进程占用CPU时间</li>
+<li>COMMAND：命令名称</li>
+</ul>
+<h2 id="ps命令"><a href="#ps命令" class="headerlink" title="ps命令"></a>ps命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ps -x     <span class="comment"># 当前用户启动的进程</span></span><br><span class="line">ps -ax     <span class="comment"># 所有用户启动的进程</span></span><br><span class="line">ps -u      <span class="comment"># 进程详细信息</span></span><br><span class="line">ps -w      <span class="comment"># 显示进程文件完整路径</span></span><br><span class="line">ps -u PID</span><br><span class="line"></span><br><span class="line">ps -L PID      <span class="comment"># 查看进程</span></span><br><span class="line">ps fjax        <span class="comment"># 树型显示进程</span></span><br><span class="line">pstree <span class="comment"># 显示进程树</span></span><br></pre></td></tr></table></figure>
+<p>结束进程:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> pid</span><br><span class="line"><span class="built_in">kill</span> -STOP pid      <span class="comment"># 暂停进程</span></span><br><span class="line"><span class="built_in">kill</span> -CONT pid     <span class="comment"># 恢复已暂停的进程</span></span><br><span class="line"><span class="built_in">kill</span> -KILL pid      <span class="comment"># kill -9 pid</span></span><br><span class="line"><span class="built_in">kill</span> -l   <span class="comment"># 列出所有kiil的命令</span></span><br></pre></td></tr></table></figure>
+<h1 id="归档打包和压缩"><a href="#归档打包和压缩" class="headerlink" title="归档打包和压缩"></a>归档打包和压缩</h1><h2 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h2><ul>
+<li>Linux标准压缩程序  <code>gzip file</code>，压缩之后源文件不保存</li>
+<li>解压：<code>gunzip file.gz</code></li>
+<li>gzip不做多文件或目录的归档打包</li>
+</ul>
+<h2 id="tar打包归档（Archive）"><a href="#tar打包归档（Archive）" class="headerlink" title="tar打包归档（Archive）"></a>tar打包归档（Archive）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tar cvf a.tar file1 file2    <span class="comment"># 将file1，file2打包成a.tar</span></span><br><span class="line">gizp a.tar      <span class="comment"># 压缩a.tar包  结果是 a.tar.gz</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 参数解释</span></span><br><span class="line">- c: 创建归档</span><br><span class="line">- v: 详细诊断输出</span><br><span class="line">- f：此参数后面必须是归档文件名</span><br></pre></td></tr></table></figure>
+<p>解包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xvf file.tar</span><br></pre></td></tr></table></figure>
+<p>tar结合gzip使用:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zcvf b.tar.gz file1 file2   <span class="comment"># 参数z其实是调用了gzip</span></span><br></pre></td></tr></table></figure>
+<p>查看包的目录结构：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -tvf a.tar.gz  <span class="comment"># 不解压，显示包里面的内容</span></span><br></pre></td></tr></table></figure>
+<h2 id="bzip2压缩"><a href="#bzip2压缩" class="headerlink" title="bzip2压缩"></a>bzip2压缩</h2><p>压缩文件是 <code>.bz2</code></p>
+<p>比gzip压缩速度慢，文本压缩比会高一点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bzip2 f    <span class="comment"># 压缩f文件，得到f.bz2</span></span><br><span class="line"></span><br><span class="line">tar jcvf c.tar.bz2 file1 file2   <span class="comment"># j参数是tar结合bzip使用</span></span><br></pre></td></tr></table></figure>
+<h1 id="sudoer"><a href="#sudoer" class="headerlink" title="sudoer"></a>sudoer</h1><p>出于安全的考虑使用 sudo</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/group | grep sudo</span><br></pre></td></tr></table></figure>
+<p>如果要把组添加到sudo中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编辑visudo</span></span><br><span class="line">sudo visudo</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">User_Alias ADMINS = user1,user2</span><br><span class="line">ADMINS ALL = (ALL) NOPASSWORD:ALL</span><br><span class="line">root ALL=(ALL) ALL</span><br></pre></td></tr></table></figure>
+<h1 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h1><p>FHS(),  Filesystem Hierarchy Standard（文件系统层次化标准）的缩写, FHS定义了两层规范，第一层是， / 下面的各个目录应该要放什么文件数据，例如/etc应该要放置设置文件，/bin与/sbin则应该要放置可执行文件等等。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200212103518.png" alt=""></p>
+<h1 id="inode和block"><a href="#inode和block" class="headerlink" title="inode和block"></a>inode和block</h1><h2 id="什么是inode和block"><a href="#什么是inode和block" class="headerlink" title="什么是inode和block"></a>什么是inode和block</h2><p>所谓的inode就是索引节点（index node）的意思，在每一个存储设备被格式化创建文件系统后，所有的文件大致被分为了两部分，分别是inode和block。</p>
+<p>其中inode用来存储文件属性信息，其中包括了文件大小，文件的归属者，文件的归属组，权限，类型，修改时间，以及指向文件实体数据（block）的指针。</p>
+<p>block中存储的就是文件的实际数据，比如说，照片，视频，音频等等，但是有一点需要注意！<strong>就是inode当中不包含文件名</strong>。一个文件的文件名，存储在上级目录的block中。</p>
+<p>其实inode和block之间的关系就像是一本书一样，inode是一本书的目录，一本书会有很多内容，一个知识点或者一个故事会占很多页，一个block就相当于书中的一页内容。</p>
+<p>所以说一般情况下一个inode会对应一个或多个block。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/02/26/H8d3bi5XwDPShnY.png" alt="image.png"></p>
+<h2 id="inode的大小"><a href="#inode的大小" class="headerlink" title="inode的大小"></a>inode的大小</h2><p>因为inode要存放文件的属性信息，所以inode是有大小的，CentOS5 inode的默认大小为128字节，而CentOS6 inode的默认大小是256字节，inode的大小在文件系统被格式化之后就无法更改了，格式化前可以指定inode大小。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dumpe2fs /dev/vda1 | grep -i <span class="string">&#x27;inode size&#x27;</span>     <span class="comment"># 显示inode大小</span></span><br></pre></td></tr></table></figure>
+<h2 id="inode小结"><a href="#inode小结" class="headerlink" title="inode小结"></a>inode小结</h2><ul>
+<li>磁盘分区格式化ext4文件系统后会生成一定数量的inode与block。</li>
+<li>inode是索引节点，作用是存放文件的属性信息以及作为文件的索引（指向文件的实体）</li>
+<li>inode表现形式为一串数字，不同文件对应的inode在OS中是唯一的</li>
+<li>inode相同的文件，互为硬链接文件（文件又一个入口）</li>
+<li>一个文件被创建后至少要占用一个inode和一个block。</li>
+<li>inode总量和大小查看：<code>dumpe2fs /dev/vda1 | grep -Ei &#39;inode size|inode count&#39;</code></li>
+<li>如何生成及指定inode大小：<code>mkfs.ext4 -b 2048 -l 256 /dev/sdb</code></li>
+</ul>
+<h2 id="block的小结"><a href="#block的小结" class="headerlink" title="block的小结"></a>block的小结</h2><ul>
+<li>磁盘读取数据是按block为单位读取的</li>
+<li>一个文件可能占用多个block。每读取一个block就会消耗一次磁盘I/O</li>
+<li>如果要提升磁盘IO性能，那么就要尽可能一次性读取数据尽量的多</li>
+<li>一个block只能存放一个文件的内容，无论内容有多小。如果block 4K，那么存放1K的文件，剩余3K就浪费了</li>
+<li>block并非越大越好。block太大对于小文件存放就会浪费磁盘空间，例如：1000K的文件，block为4K，占用250个block，block为1K，占1000个block</li>
+<li>大文件（大于16K）一般设置block大一点，小文件（小于1K）一般设置block小一点</li>
+<li>block太大例如4K，文件都是0.1K的，大量浪费磁盘空间；block太小例如1K，文件都是1000K，消耗磁盘IO</li>
+<li>文件较大时，block设置大一些会提升磁盘访问效率</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://setcreed.github.io">SetCreed</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://setcreed.github.io/posts/de30e1b5/">https://setcreed.github.io/posts/de30e1b5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://setcreed.github.io" target="_blank">伊甸园</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ubuntu/">ubuntu</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252316439.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/7a166334/" title="01-包管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-9.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">01-包管理</div></div></a></div><div class="next-post pull-right"><a href="/posts/60fa2eba/" title="04-RAID磁盘阵列"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252314745.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">04-RAID磁盘阵列</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/95a330b5/" title="01-DNS服务"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-8.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-27</div><div class="title">01-DNS服务</div></div></a></div><div><a href="/posts/863d965c/" title="01-HTTP协议"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-7.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-27</div><div class="title">01-HTTP协议</div></div></a></div><div><a href="/posts/e6eedd2e/" title="01-前言"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252315435.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-25</div><div class="title">01-前言</div></div></a></div><div><a href="/posts/1c11a258/" title="01-存储管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-10.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-27</div><div class="title">01-存储管理</div></div></a></div><div><a href="/posts/7a166334/" title="01-包管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-9.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-27</div><div class="title">01-包管理</div></div></a></div><div><a href="/posts/e0836e08/" title="01-文件服务"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252321591.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-27</div><div class="title">01-文件服务</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">SetCreed</div><div class="author-info__description">读书、写代码、看电影</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">79</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/setcreed"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="/img/qq.jpg" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="/img/wechat_account.jpg" target="_blank" title="微信"><i class="fab fa-weixin"></i></a><a class="social-icon" href="https://github.com/setcreed" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:cwzdzg@foxmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%B9%A0%E6%83%AF"><span class="toc-text">使用习惯</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%ACshell%E5%91%BD%E4%BB%A4"><span class="toc-text">基本shell命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ls-%E5%88%97%E5%87%BA%E7%9B%AE%E5%BD%95%E5%86%85%E5%AE%B9"><span class="toc-text">ls-列出目录内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ls-a-%E5%8C%85%E6%8B%AC%E9%9A%90%E8%97%8F%E7%9A%84%E6%89%80%E6%9C%89%E5%86%85%E5%AE%B9"><span class="toc-text">ls -a 包括隐藏的所有内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ls-d-%E5%8F%AA%E6%98%BE%E7%A4%BA%E7%9B%AE%E5%BD%95%E8%87%AA%E8%BA%AB%E4%BF%A1%E6%81%AF%EF%BC%8C%E6%98%BE%E7%A4%BA%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%E6%9C%AC%E8%BA%AB%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="toc-text">ls -d 只显示目录自身信息，显示所在目录本身的信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ls-i-%E6%98%BE%E7%A4%BAinode%E4%BF%A1%E6%81%AF"><span class="toc-text">ls -i 显示inode信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ls-S-%E6%8C%89%E6%96%87%E4%BB%B6%E4%BB%8E%E5%A4%A7%E5%88%B0%E5%B0%8F%E6%8E%92%E5%BA%8F-ls-Sr%E6%8C%89%E6%96%87%E4%BB%B6%E4%BB%8E%E5%B0%8F%E5%88%B0%E5%A4%A7%E6%8E%92%E5%BA%8F"><span class="toc-text">ls -S 按文件从大到小排序, ls -Sr按文件从小到大排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ls-r-%E5%80%92%E5%8F%99%E6%8E%92%E5%88%97"><span class="toc-text">ls -r 倒叙排列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ls-t-%E6%8C%89%E4%BF%AE%E6%94%B9%E6%97%B6%E9%97%B4%E6%8E%92%E5%BA%8F"><span class="toc-text">ls -t 按修改时间排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ls-h-%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F%E4%BB%A5%E4%BE%BF%E4%BA%8E%E4%BA%BA%E7%B1%BB%E9%98%85%E8%AF%BB%E7%9A%84%E6%96%B9%E5%BC%8F%E6%98%BE%E7%A4%BA"><span class="toc-text">ls -h 文件大小以便于人类阅读的方式显示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#l-l-ls-la-%E6%98%BE%E7%A4%BA%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E8%AF%A6%E6%83%85%EF%BC%8C%E5%8C%85%E6%8B%AC%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="toc-text">l l  &#x3D;&#x3D; ls -la   显示所有文件详情，包括隐藏文件信息</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cp-%E6%8B%B7%E8%B4%9D"><span class="toc-text">cp -拷贝</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mv-%E7%A7%BB%E5%8A%A8"><span class="toc-text">mv-移动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#touch-%E5%88%9B%E5%BB%BA%E7%A9%BA%E6%96%87%E4%BB%B6"><span class="toc-text">touch-创建空文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#rm-%E5%88%A0%E9%99%A4"><span class="toc-text">rm-删除</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#echo-%E5%B0%86%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E6%98%BE%E7%A4%BA%E5%9C%A8stdout"><span class="toc-text">echo- 将命令行参数显示在stdout</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pwd"><span class="toc-text">pwd</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mkdir"><span class="toc-text">mkdir</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#rmdir"><span class="toc-text">rmdir</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#grep"><span class="toc-text">grep</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#less"><span class="toc-text">less</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#head-tail"><span class="toc-text">head &#x2F; tail</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#diff"><span class="toc-text">diff</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6"><span class="toc-text">比较文本文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%BE%83%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-text">比较文件夹</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#file%E5%91%BD%E4%BB%A4"><span class="toc-text">file命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-text">检测文件格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E6%89%A7%E8%A1%8C%E4%B8%89%E7%A7%8D%E6%B5%8B%E8%AF%95%E9%9B%86"><span class="toc-text">顺序执行三种测试集</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#find-locate"><span class="toc-text">find &#x2F; locate</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#find-%E9%80%9A%E8%BF%87%E6%96%87%E4%BB%B6%E5%90%8D%E6%9F%A5%E6%89%BE"><span class="toc-text">find 通过文件名查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#find%E6%A0%B9%E6%8D%AE%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E6%9F%A5%E6%89%BE%EF%BC%9A"><span class="toc-text">find根据文件类型查找：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#find%E6%97%B6%E9%97%B4%E7%9B%B8%E5%85%B3%E7%9A%84%E7%94%A8%E6%B3%95"><span class="toc-text">find时间相关的用法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#stat%E5%91%BD%E4%BB%A4"><span class="toc-text">stat命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sort%E5%91%BD%E4%BB%A4"><span class="toc-text">sort命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%B8%AE%E5%8A%A9"><span class="toc-text">获取帮助</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#man"><span class="toc-text">man</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#info"><span class="toc-text">info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA"><span class="toc-text">Shell输入与输出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-text">输出重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E9%81%93"><span class="toc-text">管道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E8%BE%93%E5%85%A5%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-text">标准输入重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E9%94%99%E8%AF%AF"><span class="toc-text">标准错误</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-text">进程管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%B0%B1%E6%98%AF%E8%BF%90%E8%A1%8C%E4%B8%AD%E7%9A%84%E7%A8%8B%E5%BA%8F%E6%96%87%E4%BB%B6"><span class="toc-text">进程就是运行中的程序文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ps%E5%91%BD%E4%BB%A4"><span class="toc-text">ps命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BD%92%E6%A1%A3%E6%89%93%E5%8C%85%E5%92%8C%E5%8E%8B%E7%BC%A9"><span class="toc-text">归档打包和压缩</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#gzip"><span class="toc-text">gzip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tar%E6%89%93%E5%8C%85%E5%BD%92%E6%A1%A3%EF%BC%88Archive%EF%BC%89"><span class="toc-text">tar打包归档（Archive）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bzip2%E5%8E%8B%E7%BC%A9"><span class="toc-text">bzip2压缩</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sudoer"><span class="toc-text">sudoer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#inode%E5%92%8Cblock"><span class="toc-text">inode和block</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFinode%E5%92%8Cblock"><span class="toc-text">什么是inode和block</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inode%E7%9A%84%E5%A4%A7%E5%B0%8F"><span class="toc-text">inode的大小</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inode%E5%B0%8F%E7%BB%93"><span class="toc-text">inode小结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#block%E7%9A%84%E5%B0%8F%E7%BB%93"><span class="toc-text">block的小结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/7ac9a020/" title="k8s-informer深入学习"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252321591.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="k8s-informer深入学习"/></a><div class="content"><a class="title" href="/posts/7ac9a020/" title="k8s-informer深入学习">k8s-informer深入学习</a><time datetime="2022-12-01T09:56:52.000Z" title="发表于 2022-12-01 17:56:52">2022-12-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/89a3df7f/" title="go刷题基础篇"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go刷题基础篇"/></a><div class="content"><a class="title" href="/posts/89a3df7f/" title="go刷题基础篇">go刷题基础篇</a><time datetime="2022-09-18T22:21:26.000Z" title="发表于 2022-09-19 06:21:26">2022-09-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d36c6e2c/" title="istio基础"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="istio基础"/></a><div class="content"><a class="title" href="/posts/d36c6e2c/" title="istio基础">istio基础</a><time datetime="2022-08-04T14:42:19.000Z" title="发表于 2022-08-04 22:42:19">2022-08-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e385a1/" title="rust基础"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="rust基础"/></a><div class="content"><a class="title" href="/posts/e385a1/" title="rust基础">rust基础</a><time datetime="2022-07-26T00:01:34.000Z" title="发表于 2022-07-26 08:01:34">2022-07-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/419e63b4/" title="go刷题"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252321591.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go刷题"/></a><div class="content"><a class="title" href="/posts/419e63b4/" title="go刷题">go刷题</a><time datetime="2022-07-18T23:53:36.000Z" title="发表于 2022-07-19 07:53:36">2022-07-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By SetCreed</div><div class="footer_custom_text"><p><a style="margin-inline:5px" target="_blank" href="https://hexo.io/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为 Hexo" alt="HEXO"></a><a style="margin-inline:5px" target="_blank" href="https://butterfly.js.org/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用 Butterfly" alt="Butterfly"></a><a style="margin-inline:5px" target="_blank" href="https://github.com/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由 GitHub 托管" alt="GitHub"></a><a style="margin-inline:5px" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" alt="img" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><script src="https://unpkg.com/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://unpkg.com/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

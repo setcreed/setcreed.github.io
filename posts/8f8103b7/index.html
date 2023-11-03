@@ -1,0 +1,479 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>容器 | 伊甸园</title><meta name="author" content="SetCreed"><meta name="copyright" content="SetCreed"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="容器技术介绍前言虚拟化技术变革了数据中心技术 一切都在软件定义   SDN，软件定义网络（Software Defined Network，SDN）是由美国斯坦福大学CLean State课题研究组提出的一种新型网络创新架构，是网络虚拟化的一种实现方式。 在一个物理机上运行多个VM，切割利用物理机资源 最大的问题是分派给VM系统的资源浪费，如1G内存的VM，app应用仅用100M。就是说在你的虚拟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="容器">
+<meta property="og:url" content="https://setcreed.github.io/posts/8f8103b7/index.html">
+<meta property="og:site_name" content="伊甸园">
+<meta property="og:description" content="容器技术介绍前言虚拟化技术变革了数据中心技术 一切都在软件定义   SDN，软件定义网络（Software Defined Network，SDN）是由美国斯坦福大学CLean State课题研究组提出的一种新型网络创新架构，是网络虚拟化的一种实现方式。 在一个物理机上运行多个VM，切割利用物理机资源 最大的问题是分派给VM系统的资源浪费，如1G内存的VM，app应用仅用100M。就是说在你的虚拟">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252321591.jpg">
+<meta property="article:published_time" content="2022-03-02T14:56:26.000Z">
+<meta property="article:modified_time" content="2023-01-23T05:20:38.689Z">
+<meta property="article:author" content="SetCreed">
+<meta property="article:tag" content="hexo、code、dream">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252321591.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://setcreed.github.io/posts/8f8103b7/index.html"><link rel="preconnect" href="//unpkg.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"距离上次更新已经过了","messageNext":"天，文章所描述的内容可能已经发生变化，请留意。"},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":500},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  infinitegrid: {
+    js: 'https://unpkg.com/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '容器',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-23 13:20:38'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/custom/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/custom/icon.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="伊甸园" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">79</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 读书</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252321591.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="伊甸园"><span class="site-name">伊甸园</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-book"></i><span> 读书</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li><li><a class="site-page child" href="/games/"><i class="fa-fw fas fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">容器</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2022-03-02T14:56:26.000Z" title="发表于 2022-03-02 22:56:26">2022-03-02</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>19分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="容器"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="容器技术介绍"><a href="#容器技术介绍" class="headerlink" title="容器技术介绍"></a>容器技术介绍</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="虚拟化技术变革了数据中心技术"><a href="#虚拟化技术变革了数据中心技术" class="headerlink" title="虚拟化技术变革了数据中心技术"></a>虚拟化技术变革了数据中心技术</h3><ul>
+<li>一切都在软件定义   SDN，软件定义网络（Software Defined Network，SDN）是由美国斯坦福大学CLean State课题研究组提出的一种新型网络创新架构，是网络虚拟化的一种实现方式。</li>
+<li>在一个物理机上运行多个VM，切割利用物理机资源</li>
+<li>最大的问题是分派给VM系统的资源浪费，如1G内存的VM，app应用仅用100M。就是说在你的虚拟机还没有跑任何应用之前，它就已经消耗了相当大的系统资源了。</li>
+<li>虽然可共享未使用资源，但是效率损失较大</li>
+</ul>
+<h3 id="容器再次颠覆IT业界"><a href="#容器再次颠覆IT业界" class="headerlink" title="容器再次颠覆IT业界"></a>容器再次颠覆IT业界</h3><ul>
+<li>轻量级的虚拟环境（开销小），但不是我们通常意义认为的虚拟机服务器</li>
+<li>容器使用宿主机的CPU（VM有自己的CPU）</li>
+<li>容器共享宿主机的OS内核和只读库</li>
+<li>容器也可以实现应用隔离（与VM相同又不相同）。<ul>
+<li>虚拟机是 应用安装在独立的虚拟机里面，是通过操作系统层面甚至是硬件层面，利用硬件层面的特点来实现的进程的隔离。 </li>
+<li>而容器是 在一个宿主机上 隔离出一个应用程序的运行环境，在这个环境里面，所有的东西也是由一个宿主机里面的进程的形式去运行。不同的容器可以跑不同的程序，不同容器里面的程序彼此之间是互相隔离的。</li>
+<li>虚拟机和容器都可以实现应用的隔离，虚拟机是从硬件层面上隔离的，而容器是从操作系统内部的进程之间隔离的。它们隔离的层次不一样，从理论上讲，容器隔离出来的效果，性能是更优的。但实际比较复杂，要看实际的部署情况。</li>
+<li>虚拟机毕竟是一个独立的操作系统，它是和你的宿主机的硬件CPU打交道的，所有它对程序的隔离更加的底层、更加彻底。从安全的角度上来讲，它更安全。而容器是从操作系统里面的进程之间来隔离的，虽然也是从内核级别去完成的隔离，通过控制组的方式来实现进程之间的隔离。但是它的层级已经要比虚拟机更接近应用层，它隔离的应用的安全性要比虚拟机隔离的应用要差一些。</li>
+</ul>
+</li>
+<li>可移植的软件实例，提高部署效率，改变开发方式</li>
+</ul>
+<h2 id="什么是容器"><a href="#什么是容器" class="headerlink" title="什么是容器"></a>什么是容器</h2><p>容器是一类技术很多产品的统称，这些的产品都会使用容器相关的手段。但是不同的容器产品，不同的人开发出来的容器的产品、技术各有各的特点，有的特点彼此不相同，设置是相反的。</p>
+<ul>
+<li>建议将容器看做是一个文件系统，而非虚拟机。</li>
+<li>在LInux内核里打造的轻便的、接近裸机速度的虚拟环境</li>
+<li>容器包含一个与宿主机一致的文件系统<ul>
+<li>ubuntu上的容器拥有一致的文件系统，看起来像是虚拟机或物理机</li>
+</ul>
+</li>
+<li>会拷贝宿主机ubuntu中的文件，进入到它独立的文件结构里面，然后把这些程序固定在独立的文件结构里面，让它只在这个文件结里面去运行，让它逃不出这个目录结构。(放到一个新的目录中)<ul>
+<li>独立运行二进制程序，而不是运行实际的操作系统</li>
+<li>应用运行在这个独立的文件系统中，与宿主机隔离</li>
+<li>拷贝宿主机的什么文件，为什么要拷贝这些。 都是依据上层要运行的应用程序来定的，把相应的应用要依赖的库环境拷贝进来。但是仅仅拷贝上层应用程序需要运行依赖的底层的系统文件，它不会把你整个宿主机的操作系统和你上层应用程序无关的文件拷贝下来。不会像虚拟机一样为了跑一个小程序把整个操作系统拷贝下来。</li>
+</ul>
+</li>
+<li>容器只包含应用运行所需的最小资源集</li>
+<li>一个容器倾向于只运行一个应用（也可以运行多个）</li>
+<li>云时代容器技术会得到更多的重视</li>
+</ul>
+<p>可移植性</p>
+<ul>
+<li>可移植性是容器的另一重大优势，是容器设计的核心技术</li>
+<li>保证在不同宿主机系统上获取完全相同的开发运行环境</li>
+<li>虚拟机也可导入导出，但容器移植更简单</li>
+</ul>
+<p>容器并非新技术</p>
+<ul>
+<li>Docker是目前最火的容器</li>
+<li>LXC（Linux Container）</li>
+</ul>
+<h2 id="对比虚拟化技术"><a href="#对比虚拟化技术" class="headerlink" title="对比虚拟化技术"></a>对比虚拟化技术</h2><p>虚拟化技术是不是完蛋了？</p>
+<ul>
+<li>目前虚拟化更加成熟</li>
+<li>虚拟化拥有自己独特的优势</li>
+<li>生态已经非常成熟，包括产品、解决方案、管理工具</li>
+<li>某些场景更适合使用虚拟化</li>
+<li>会与容器长期共存</li>
+</ul>
+<p>并非所有的应用都可运行于容器中，但是所有应用可以在虚拟机上运行</p>
+<ul>
+<li>容器适合web应用或者各种服务</li>
+<li>容器还处于飞速的发展进化阶段，特性很吸引人，但还没有一统江湖</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>虚拟机</th>
+<th>容器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>表现为硬件虚拟化</td>
+<td>系统 / 应用 虚拟化</td>
+</tr>
+<tr>
+<td>重量</td>
+<td>轻量</td>
+</tr>
+<tr>
+<td>交付速度慢</td>
+<td>实时交付，可扩展</td>
+</tr>
+<tr>
+<td>性能开销大</td>
+<td>接近裸机性能</td>
+</tr>
+<tr>
+<td>全隔离，更安全</td>
+<td>进程级隔离</td>
+</tr>
+<tr>
+<td>生态成熟</td>
+<td>发展很快</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Docker与LXD-LXC"><a href="#Docker与LXD-LXC" class="headerlink" title="Docker与LXD / LXC"></a>Docker与LXD / LXC</h2><h3 id="Docker介绍"><a href="#Docker介绍" class="headerlink" title="Docker介绍"></a>Docker介绍</h3><p>Docker目前最火，很大程度上和优秀的市场营销有关</p>
+<ul>
+<li>Docker利用分层的方法实现容器化，这个在其他的容器技术上似乎没有出过</li>
+<li>对容器做的所有修改都会产生一个新层，这些层将会成为其他容器的依赖基础</li>
+</ul>
+<p>所谓分层，我们对一个容器，容器里面要跑应用程序，对这个容器无论是做了底层的操作系统还是应用层面的所有修改都会产生一个层。所以一个Docker容器，是由很多层叠加在一起的，一个层依赖下一个层，下一个层依赖下下一个层，一直依赖到底层的操作系统的内核。我们对Docker容器做的所有修改都是修改某一层的内容。</p>
+<h3 id="LXD介绍"><a href="#LXD介绍" class="headerlink" title="LXD介绍"></a>LXD介绍</h3><ul>
+<li>LXD源于LXC，Docker最早基于LXC，LXC是所有容器技术的鼻祖</li>
+<li>LXC是基于控制组实现进程隔离的</li>
+<li>LXD最初由Canonical创建，曾经是ubuntu独有（现在使用snap包管理）</li>
+<li>LXD是对LXC的增强提高，可支持快照、ZFS、迁移</li>
+<li>可认为是LXC在其基础之上增加了额外的管理层和功能</li>
+</ul>
+<h3 id="两者比较"><a href="#两者比较" class="headerlink" title="两者比较"></a>两者比较</h3><ul>
+<li>LXC可视为机器容器，更接近虚拟机</li>
+<li>LXC基于一个文件系统实现容器化，可以从宿主机系统访问</li>
+<li>Docker努力地将自己与虚拟机区分开来</li>
+<li>Docker可视为应用程序容器，提供运行应用程序所需要的基础</li>
+<li>Docker每个任务都运行在单独的层中</li>
+</ul>
+<p>选择Docker还是LXD / LXC？</p>
+<ul>
+<li>都使用，按照应用的环境要求选择</li>
+<li>Docker可以在Linux、macos、windows上运行Docker容器</li>
+<li>使用容器服务运行容器，而非自建容器服务器</li>
+</ul>
+<h2 id="其他容器技术"><a href="#其他容器技术" class="headerlink" title="其他容器技术"></a>其他容器技术</h2><h3 id="OpenVZ"><a href="#OpenVZ" class="headerlink" title="OpenVZ"></a>OpenVZ</h3><p>是基于Linux内核的操作系统级别的虚拟化技术</p>
+<p>虚拟化的系统实例称为</p>
+<ul>
+<li>containers 容器</li>
+<li>virtual private servers（VPSs）</li>
+<li>virtual environments（VEs）</li>
+</ul>
+<h3 id="FreeBSD-jail"><a href="#FreeBSD-jail" class="headerlink" title="FreeBSD jail"></a>FreeBSD jail</h3><ul>
+<li>OS-Level 虚拟化技术</li>
+<li>将基于freebsd 的系统划分为 多个称为监狱 的独立微型系统</li>
+</ul>
+<h3 id="WPARs"><a href="#WPARs" class="headerlink" title="WPARs"></a>WPARs</h3><p>The AIX Workload partitions</p>
+<p>工作负载分区</p>
+<h3 id="Solaris-Containers"><a href="#Solaris-Containers" class="headerlink" title="Solaris Containers"></a>Solaris Containers</h3><p>通过一个个zone （Solaris Zones）现在官方已经不在更新了。</p>
+<h1 id="Docker的安装和使用"><a href="#Docker的安装和使用" class="headerlink" title="Docker的安装和使用"></a>Docker的安装和使用</h1><h2 id="docker介绍"><a href="#docker介绍" class="headerlink" title="docker介绍"></a>docker介绍</h2><ul>
+<li>Docker是一个开源的容器引擎</li>
+<li>Docker容器包含独立的运行软件需要的一切<ul>
+<li>包含二级制、库、配置文件、脚本、jar包等</li>
+<li>容器之间是完全隔离的，各自独立的根文件目录</li>
+</ul>
+</li>
+<li>Docker容器有自己的进程空间和网络接口</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200221165004.png" alt=""></p>
+<ul>
+<li>组件<ul>
+<li>Docker engine ：生成监视和管理所有容器</li>
+<li>Docker Hub：映像库</li>
+<li>Docker Client：管理工具</li>
+</ul>
+</li>
+<li>Docker引擎只可以直接运行在Linux系统上<ul>
+<li>利用Boot2Docker等适配器帮助，使用轻量级Linux vm可在Mac和微软系统上运行</li>
+</ul>
+</li>
+</ul>
+<h2 id="Docker的安装"><a href="#Docker的安装" class="headerlink" title="Docker的安装"></a>Docker的安装</h2><p>安装Docker引擎</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span> -m         <span class="comment"># 仅在64位系统有保障，32位系统也能使用Docker，但是出了问题没有保障</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装ubuntu软件仓库Docker"><a href="#安装ubuntu软件仓库Docker" class="headerlink" title="安装ubuntu软件仓库Docker"></a>安装ubuntu软件仓库Docker</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install docker.io        <span class="comment"># 安装Docker</span></span><br><span class="line">sudo systemctl status docker.service   <span class="comment"># 查看Docker运行状态</span></span><br></pre></td></tr></table></figure>
+<p>使用docker命令，有些服务需要sudo，如果想省事，直接用当前账号运行，就将当前用户加入docker组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG docker <span class="variable">$&#123;USER&#125;</span>      <span class="comment"># 重启后生效</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装最新的Docker"><a href="#安装最新的Docker" class="headerlink" title="安装最新的Docker"></a>安装最新的Docker</h3><p>ubuntu官方仓库中不是docker的最新版本</p>
+<p>安装依赖包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install apt-transport-https ca-certificates curl software-properties-common</span><br></pre></td></tr></table></figure>
+<p>添加docker官方库GPG key</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<p>添加docker官方库更新源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository <span class="string">&quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu <span class="subst">$(lsb_release -cs)</span> stable&quot;</span></span><br></pre></td></tr></table></figure>
+<p>安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install docker-ce</span><br></pre></td></tr></table></figure>
+<h2 id="简单的dokcer的命令"><a href="#简单的dokcer的命令" class="headerlink" title="简单的dokcer的命令"></a>简单的dokcer的命令</h2><p>查看信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker version      <span class="comment"># 查看版本信息</span></span><br><span class="line">docker info</span><br></pre></td></tr></table></figure>
+<p>Docker registry</p>
+<ul>
+<li>应用程序仓库，包含基本的Linux映像、高级应用程序映像</li>
+</ul>
+<p>下载映像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull busybox</span><br></pre></td></tr></table></figure>
+<p>查看映像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p>运行程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run busybox <span class="built_in">echo</span> <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Docker有关的名词解释"><a href="#Docker有关的名词解释" class="headerlink" title="Docker有关的名词解释"></a>Docker有关的名词解释</h2><h3 id="Docker镜像"><a href="#Docker镜像" class="headerlink" title="Docker镜像"></a>Docker镜像</h3><ul>
+<li>是组成应用程序运行所需的全部文件合集</li>
+<li>只读 / 可读可写 分层结构（每次对映像的修改都是通过commit形成一个新层）</li>
+<li>容器层 是基于映像可读写的顶层</li>
+<li>所有的Docker映像都源自于一个基础映像</li>
+<li>其他的功能模块附加于基础映像形成最终程序</li>
+<li>Docker images是构建Docker container的基础</li>
+<li>Docker层 / 容器层</li>
+</ul>
+<p>拿虚拟机来对比，虚拟机先安装一个操作系统，在操作系统部署web服务、数据库，再在上面部署web应用，都是这样一个套路和思路，和Docker内部文件的分层结构是比较像的，虽然其实它们实现上差距很远。</p>
+<p>虚拟机这边要部署应用，首先要安装一个虚拟机的操作系统，和虚拟机相对应，Docker这边有一个层。它不是说单独安装一个虚拟机，它是有一个软件的层。这个层是一个操作系统的层。如图：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200221222830.png" alt=""></p>
+<p>上图所示，最底下就是运行Docker引擎的宿主机操作系统的内核kernel，在运行Docker引擎运行的宿主机基础之上，你要运行Docker镜像的话，你首先要一个具有操作系统功能的软件层，在这个层里面当然不是一个完整的操作系统，它只是用于支撑你应用程序正常跑起来的必须具有的操作系统的文件。所谓Docker中的操作系统层可以选择不同的Linux发行版本，操作系统层就类似于虚拟机上安装一个操作系统。这种操作系统层在Docker内部是一个只读的层，是固定的。以后在这个不变的底层操作系统之上安装nginx等服务时，每做一次变更，变更的这些东西都会沉淀下来形成一个新的层。所以Docker内部就是有很多层，底层是基础映像，就是操作系统这一层。然后我要部署Apache，安装MySQL数据库，这些都基于底层沉淀下来，形成新层，它是只读的，拿着生成好的映像可以去使用了。底层是只读的，最顶层也就是各种应用是可读可写的，被称为容器层，底层的被称为映像层。容器层加上映像层，把这些可读可写的、只读的各种层打包完成完整在一起的综合的环境，最终成为一个容器。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200221230111.png" alt=""></p>
+<p>我们所说的Docker容器，必须要以映像也就是images为基础才能构建起来。最上面的也就是容器层，是可读可写的，在容器层下面的是只读的映像，最下面的就是基础映像，也就是提供操作系统层相应功能的。上层的每一个层都是要基于下层的基础层和它的父层才能够正常的工作起来的。</p>
+<p>所以容器层指的是最上面的可读可写的那一层，映像层是下面每一个只读的、不可写的、固化下来的文件内容。一般我们说容器的时候，容器是指所有层，把它们综合起来形成的一个整体软件运行所需要环境的集合。</p>
+<h3 id="每一个映像都有唯一的ID（SHA256的前6个字节）"><a href="#每一个映像都有唯一的ID（SHA256的前6个字节）" class="headerlink" title="每一个映像都有唯一的ID（SHA256的前6个字节）"></a>每一个映像都有唯一的ID（SHA256的前6个字节）</h3><p>就是一些SHA256的哈希值，对Docker容器计算一个哈希值，我们知道哈希值都是单向加密，会生成一个唯一的一串字符串来代表文件。现在我们知道md5、SHA1这样的哈希加密算法都已经被发现存在安全漏洞了，所以现在Docker使用SHA256的哈希算法，目前来说是认为安全的。但是SHA256会生成256位二进制位的一长串数据，256位也就对应32个字节，32个字节太长了，为了方便使用，我们把32个字节的前6个字节作为每一个Docker映像的ID值。可以通过命令查看：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200222090411.png" alt=""></p>
+<ul>
+<li>REPOSITORY，：表示的是 库名，如果是个人的库，用户名 / 库名。</li>
+<li>TAG：标签，最新版本显示latest</li>
+<li>IMAGE ID：就是SHA256的哈希值，为了方便显示，我们只显示前6个字节，是12个16进制数。</li>
+<li>CREATED：创建日期</li>
+<li>SIZE：映像大小</li>
+</ul>
+<p>查看完整的SHA256哈希值：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images --no-trunc</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200222090941.png" alt=""></p>
+<p>下载映像默认是现在latest版本的，如果要下载全部的版本可以：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull busybox -a</span><br></pre></td></tr></table></figure>
+<p>删除映像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi busybox:标签名</span><br></pre></td></tr></table></figure>
+<h3 id="每一个容器也有唯一的ID"><a href="#每一个容器也有唯一的ID" class="headerlink" title="每一个容器也有唯一的ID"></a>每一个容器也有唯一的ID</h3><p>容器指的是运行程序的容器，映像是容器要基于这个映像运行的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a       <span class="comment"># 查看运行的、已经停止运行的容器</span></span><br><span class="line"></span><br><span class="line">docker run busybox:1_uclibc <span class="built_in">echo</span> <span class="string">&quot;hello world&quot;</span>  <span class="comment"># 指定具体的标签运行，默认是latest</span></span><br><span class="line"></span><br><span class="line">docker <span class="built_in">rm</span> 容器ID       <span class="comment"># 删除容器</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意：删除必须先删除容器，再删除映像</span></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200222092252.png" alt=""></p>
+<h2 id="Docker注册中心"><a href="#Docker注册中心" class="headerlink" title="Docker注册中心"></a>Docker注册中心</h2><p>Docker Registry</p>
+<ul>
+<li>提供开放的映像注册、查找、访问、使用的中央位置</li>
+<li>官方注册中心提供多重检查检验的高质量映像（可以个人自建）</li>
+<li>注册用户可以发布自己定制的映像</li>
+</ul>
+<p>Repository</p>
+<ul>
+<li>映像在注册中心里的具体存储位置，命名空间</li>
+<li>注册用户拥有自己的库</li>
+</ul>
+<p>Docker Hub Registry</p>
+<ul>
+<li>Docker 社区创建的官方映像库 / 第三方映像分享平台</li>
+<li>docker search ubuntu ，默认访问地址 <a target="_blank" rel="noopener" href="https://index.docker.io/">https://index.docker.io/</a></li>
+<li>docker pull ubuntu  下载映像，使用数字签名，异常告警</li>
+<li>docker pull registry.example.com/myapp (自建映像库)</li>
+</ul>
+<p>我们可以把自己的映像提交到Docker Hub Registry，其他人就可以下载使用。</p>
+<p>官方提供的是Docker Hub Registry，我们个人可以在自己的电脑上安装自己的Docker Registry，这样可以把你的这台服务器安装成Registry，内部可以创建自建的映像，可以传到公司内部的Registry服务器上保存。这样可以使用公司自己搭建的Docker Registry去下载映像。这样的好处是，可以使用适合自己公司应用系统所需要的映像，可以简化和提高应用环境的部署效率。</p>
+<p>Registry相当于一个目录，相当于软件包管理的索引，它不是存放具体的映像位置，只是注册中心。具体存放映像文件的是Repository。</p>
+<h2 id="Docker命令"><a href="#Docker命令" class="headerlink" title="Docker命令"></a>Docker命令</h2><h3 id="搜索映像"><a href="#搜索映像" class="headerlink" title="搜索映像"></a>搜索映像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search mysql</span><br></pre></td></tr></table></figure>
+<h3 id="交互登录"><a href="#交互登录" class="headerlink" title="交互登录"></a>交互登录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ubuntu /bin/bash        <span class="comment"># 基于ubuntu映像运行终端，运行这个容器的时候，基于这个映像去创建一个容器，在容器里面去运行bash这个程序，通过-it参数，t就是terminal，i就是一种交互式的形式，这样就会得到一个docker终端的命令提示符，在这个提示符下输入命令都是运行在在容器里面的。</span></span><br><span class="line"></span><br><span class="line">PORTS：端口映射（对外提供服务）</span><br><span class="line">NAMES：自动随机生成的容器名</span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 或者 ctrl+D    <span class="comment"># </span></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200222101641.png" alt=""></p>
+<p>我们发现登录进来就是以root账号运行的，主机名就是容器sha256哈希值的前6个字节，但是这个名字不好记忆。我们可以在创建容器的时候指定名字</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name D01 -it ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
+<p>exit 或者 ctrl+D退出的时候，容器已经是停止的状态，这样不方便使用。我们可以退出容器，但是又能保证退出容器之后保持运行的状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(ctrl+P) + (ctrl+Q)     <span class="comment"># 使用组合键，可以退出并保持容器运行</span></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200222102759.png" alt=""></p>
+<p>如图所示，容器的状态是up，没有关闭，NAMES就是我们自己改的名字，我们可以使用这个名字也可以使用ID值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker start 3f7ee034a5c1      <span class="comment"># 启动已经关闭的容器</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当容器处于up 的状态，进入容器</span></span><br><span class="line">docker attach D01</span><br><span class="line"></span><br><span class="line">docker ps -a --no-trunc    <span class="comment"># 显示完整的容器的哈希值</span></span><br><span class="line"></span><br><span class="line">docker rename 3f7ee034a5c1 D02      <span class="comment"># 改名字</span></span><br></pre></td></tr></table></figure>
+<h3 id="容器与映像的变化"><a href="#容器与映像的变化" class="headerlink" title="容器与映像的变化"></a>容器与映像的变化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker diff D01</span><br><span class="line"></span><br><span class="line">C: 修改</span><br><span class="line">A：增加</span><br><span class="line">D：删除</span><br></pre></td></tr></table></figure>
+<h3 id="日常管理的命令"><a href="#日常管理的命令" class="headerlink" title="日常管理的命令"></a>日常管理的命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker start D01    <span class="comment"># 开启</span></span><br><span class="line">docker stop D01      <span class="comment"># 关闭</span></span><br><span class="line">docker restart D01     <span class="comment"># 重启</span></span><br><span class="line">docker rename D01 D03     <span class="comment"># 重命名</span></span><br><span class="line">docker pause D01     <span class="comment"># 状态冻结住，冻结住不能做其他操作</span></span><br><span class="line">docker unpause D01    <span class="comment"># 解除冻结状态</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建映像"><a href="#创建映像" class="headerlink" title="创建映像"></a>创建映像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run  -it ubuntu /bin/bash</span><br><span class="line"><span class="built_in">touch</span> &#123;a,b,c,d&#125;.txt </span><br><span class="line">(ctrl+P) + (ctrl+Q)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对Docker容器修改好了，如果想把这个版本的Docker容器保留下来，形成一个新的Docker</span></span><br><span class="line">docker commit 3f7ee034a5c1 cwz/web:0.1    <span class="comment"># 以自己用户名在中心注册器上面注册账号，image的名称，标签标识的版本号，形成一个新的映像，当前是保存在自己的计算机上的，但是可以按照路径、命名上传到Docker Hub Registry官方服务器上。</span></span><br></pre></td></tr></table></figure>
+<h3 id="基于新映像创建容器"><a href="#基于新映像创建容器" class="headerlink" title="基于新映像创建容器"></a>基于新映像创建容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it cwz/web:0.1 /bin/bash</span><br></pre></td></tr></table></figure>
+<h3 id="后台运行容器"><a href="#后台运行容器" class="headerlink" title="后台运行容器"></a>后台运行容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d cwz/web:0.1 /bin/bash -c <span class="string">&quot;while true; do date; sleep 5; done&quot;</span>   <span class="comment"># 一直循环，每隔5秒钟显示date</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs b3a167814fdd</span><br></pre></td></tr></table></figure>
+<h2 id="容器运行服务"><a href="#容器运行服务" class="headerlink" title="容器运行服务"></a>容器运行服务</h2><h3 id="运行Apache服务"><a href="#运行Apache服务" class="headerlink" title="运行Apache服务"></a>运行Apache服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 外部网络默认是不能访问Docker内部网络</span></span><br><span class="line">docker run --name web -dit -p 8080:80 ubuntu /bin/bash      <span class="comment"># 宿主机的8080端口会映射到80端口中,-d是以后台形式运行</span></span><br><span class="line"></span><br><span class="line">docker attach 97e4dd8bd0a6     <span class="comment"># 进入bash终端</span></span><br><span class="line">apt update &amp;&amp; apt install apache2      <span class="comment"># 在容器内部安装Apache</span></span><br><span class="line"></span><br><span class="line">/etc/init.d/apache2 start   <span class="comment"># 在容器内部启动apache服务</span></span><br><span class="line"></span><br><span class="line">(ctrl+P+Q)  <span class="comment"># 退出</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 宿主机浏览器访问：http://localhost:8080</span></span><br></pre></td></tr></table></figure>
+<h3 id="服务自动启动"><a href="#服务自动启动" class="headerlink" title="服务自动启动"></a>服务自动启动</h3><p>上述是手动启动了apache服务，如果下次还要启动容器，还需要手动启动Apache服务，就会比较麻烦。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt install nano    <span class="comment"># 安装文本编辑器，Docker映像系统为了更精简，只安装了操作系统必须的文件，其他什么都没有</span></span><br><span class="line"></span><br><span class="line">nano /etc/bash.bashrc</span><br><span class="line"><span class="comment"># 编辑文件，在文件的最下方加上</span></span><br><span class="line">/etc/init.d/apache2 start</span><br></pre></td></tr></table></figure>
+<h3 id="创建新映像"><a href="#创建新映像" class="headerlink" title="创建新映像"></a>创建新映像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker commit web cwz/apache:1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以上传到服务器上去，供其他人使用</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用Dockerfiles自动创建映像"><a href="#使用Dockerfiles自动创建映像" class="headerlink" title="使用Dockerfiles自动创建映像"></a>使用Dockerfiles自动创建映像</h3><p>在上面的操作中，你打包好了一个容器上传到服务器上，你的同事下载下来使用，在这一过程中，虽然只是下载了几百兆，但还是感觉不是很方便。在实际的环境中，可以更加的高效的使用。</p>
+<p>使用Dockerfiles自动创建映像，不把最终创建的结果作为传递给使用者的最终文件，而把我是怎么准备、怎么最终创建的映像 这一过程所有的指令保存到一个文本文件里面，让使用者拿着所有指令的文件到他们的电脑里面再运行一遍。这样就只需要拷贝几十k文件就行了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vi Dockerfile</span><br><span class="line"><span class="comment"># 配置：</span></span><br><span class="line">FROM ubuntu     <span class="comment"># 会去官方服务器的库里面找到ubuntu，下载下来</span></span><br><span class="line">MAINTAINER cwz &lt;cwzdzg@163.com&gt;    <span class="comment"># 维护者的名字、邮箱地址</span></span><br><span class="line">RUN apt update; apt dis-upgrade -y </span><br><span class="line">RUN apt install -y apache2 nano</span><br><span class="line">RUN <span class="built_in">echo</span> <span class="string">&quot;etc/init.d/apache2 start&quot;</span> &gt;&gt; /etc/bash.bashrc</span><br></pre></td></tr></table></figure>
+<p>使用者拿到Dockerfile文件，前提是使用者安装好了docker软件。容器什么也没有创建，也不知道怎么创建。他只要运行一下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t yyy/apache:1.0 .      <span class="comment"># 只要指定容器的名称和标签信息，不要忘了后面的.，.是使用当前的Dockerfile文件</span></span><br></pre></td></tr></table></figure>
+<p>使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -dit -p 8080:80 yyy/apache:1.0 /bin/bash</span><br></pre></td></tr></table></figure>
+<h1 id="LXD安装与使用"><a href="#LXD安装与使用" class="headerlink" title="LXD安装与使用"></a>LXD安装与使用</h1><h2 id="LXD的安装"><a href="#LXD的安装" class="headerlink" title="LXD的安装"></a>LXD的安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo snap install lxd </span><br><span class="line">sudo usermod -aG lxd <span class="variable">$&#123;USER&#125;</span>      <span class="comment"># 将当前用户名加入到lxd组</span></span><br><span class="line"><span class="comment"># 重启主机</span></span><br></pre></td></tr></table></figure>
+<p>初始化</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lxd init</span><br><span class="line"><span class="comment"># 会有一些提示，默认即可</span></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/02/22/9LYztu53HJw8l1G.png" alt=""></p>
+<p>LXD和Docker最大的不同就是LXD更倾向于是一个操作系统的容器，更接近一个虚拟机。</p>
+<p>运行容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lxc launch ubuntu:18.04 C01   <span class="comment"># 默认情况下基于ubuntu远程的存储服务器库，下载ubuntu18.04的版本的映像，把它作为底层的基础映像</span></span><br><span class="line"><span class="comment"># 自动下载映像并创建、运行容器</span></span><br></pre></td></tr></table></figure>
+<p>lxd命令针对lxd管理层，容器管理命令仍然使用lxc</p>
+<h2 id="LXD常用管理命令"><a href="#LXD常用管理命令" class="headerlink" title="LXD常用管理命令"></a>LXD常用管理命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lxc list        <span class="comment"># 列出容器</span></span><br><span class="line">lxc start &lt;container&gt;     <span class="comment"># 启动容器</span></span><br><span class="line">lxc stop &lt;container&gt;   <span class="comment"># 停止容器</span></span><br><span class="line">lxc delete &lt;container&gt;  <span class="comment"># 删除容器</span></span><br><span class="line">lxc image list         <span class="comment"># 查看映像</span></span><br><span class="line">lxc image delete &lt;img_name&gt;   <span class="comment"># 删除映像</span></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200222153142.png" alt=""></p>
+<h2 id="交互登录容器"><a href="#交互登录容器" class="headerlink" title="交互登录容器"></a>交互登录容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lxc <span class="built_in">exec</span> C01 bash       <span class="comment"># 以root账号登录，获得一个shell</span></span><br><span class="line">lxc <span class="built_in">exec</span> C01 --sudo --login --user ubuntu</span><br><span class="line"><span class="comment"># ubuntu映像包含一个默认用户账户 ubuntu，以ubuntu账号登录</span></span><br><span class="line"></span><br><span class="line">lxc <span class="built_in">exec</span> C01 -- apt update       <span class="comment"># 不登录容器使用</span></span><br></pre></td></tr></table></figure>
+<h2 id="LXD特点"><a href="#LXD特点" class="headerlink" title="LXD特点"></a>LXD特点</h2><ul>
+<li>lxd部署容器过程比Docker更容易</li>
+<li>lxd容器没有分层的概念，Docker进行分层的好处就是创建容器的时候会更加的灵活，能更加容易去组合不同层的功能。lxd不能分层，在灵活性上比Docker存在劣势，但管理起来更加直接、清晰。</li>
+<li>Docker中的层可以使得部署更快，但是管理起来会比较乱。</li>
+<li>退出方面也有不同，输入<code>ctrl+d</code>或者<code>exit</code>，docker会停止容器，而lxd不会。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 随着宿主机启动而启动容器</span></span><br><span class="line">lxc config <span class="built_in">set</span> C01 boot.autostart 1</span><br></pre></td></tr></table></figure>
+<h2 id="lxd创建容器"><a href="#lxd创建容器" class="headerlink" title="lxd创建容器"></a>lxd创建容器</h2><h3 id="远程映像存储服务器"><a href="#远程映像存储服务器" class="headerlink" title="远程映像存储服务器"></a>远程映像存储服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lxc remote list       <span class="comment"># 默认远程连接了3个存储</span></span><br><span class="line"></span><br><span class="line">images下放的不是ubuntu的映像，是其他Linux发行版的映像</span><br><span class="line">ubuntu 是稳定版的ubuntu映像</span><br><span class="line">ubuntu-daily 是每日最新的ubuntu映像</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/pic_img/cdn_img/20200222160024.png" alt=""></p>
+<h3 id="从远程复制映像"><a href="#从远程复制映像" class="headerlink" title="从远程复制映像"></a>从远程复制映像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lxc launch images:debian/stretch test01</span><br><span class="line"></span><br><span class="line">lxc image copy ubuntu:18.10 <span class="built_in">local</span>: --<span class="built_in">alias</span> u1810</span><br><span class="line"><span class="comment"># 从ubuntu存储复制映像到本地存储，其别名为u1810</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建容器"><a href="#创建容器" class="headerlink" title="创建容器"></a>创建容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc launch u1810 C02  </span><br></pre></td></tr></table></figure>
+<h3 id="上传下载文件"><a href="#上传下载文件" class="headerlink" title="上传下载文件"></a>上传下载文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lxc file pull C01 /etc/hosts .      <span class="comment"># 在宿主机里面下载容器里面的文件</span></span><br><span class="line">lxc file push hosts C01 /tmp/     <span class="comment"># 上传文件到C01容器里面</span></span><br></pre></td></tr></table></figure>
+<h3 id="映像自动更新间隔"><a href="#映像自动更新间隔" class="headerlink" title="映像自动更新间隔"></a>映像自动更新间隔</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc config <span class="built_in">set</span> images.auto_update_interval 24   <span class="comment"># 每隔24小时更新映像</span></span><br></pre></td></tr></table></figure>
+<h3 id="自动清除未使用的映像"><a href="#自动清除未使用的映像" class="headerlink" title="自动清除未使用的映像"></a>自动清除未使用的映像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc config <span class="built_in">set</span> images.remote_cache_expiry 5     <span class="comment"># 5天清除一次</span></span><br></pre></td></tr></table></figure>
+<h3 id="查看配置"><a href="#查看配置" class="headerlink" title="查看配置"></a>查看配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lxc config show</span><br></pre></td></tr></table></figure>
+<h2 id="安装apache2服务"><a href="#安装apache2服务" class="headerlink" title="安装apache2服务"></a>安装apache2服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lxc <span class="built_in">exec</span> C01 bash</span><br><span class="line">apt update &amp;&amp; apt install apache2</span><br><span class="line"></span><br><span class="line">ip addr show</span><br><span class="line">curl 1.1.1.1</span><br></pre></td></tr></table></figure>
+<h3 id="外网访问"><a href="#外网访问" class="headerlink" title="外网访问"></a>外网访问</h3><p>需要在宿主机上创建桥接网卡br0，通过桥接网卡将外部的访问引到lxd容器里面，两种方式：</p>
+<ul>
+<li>防火墙规则路由流量</li>
+<li>创建配置文件 DHCP 获取物理网络地址（类似于虚拟机）</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://setcreed.github.io">SetCreed</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://setcreed.github.io/posts/8f8103b7/">https://setcreed.github.io/posts/8f8103b7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://setcreed.github.io" target="_blank">伊甸园</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252321591.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/2043ab6e/" title="centos7安装使用容器"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">centos7安装使用容器</div></div></a></div><div class="next-post pull-right"><a href="/posts/3f4bc5f1/" title="centos7虚拟化"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-7.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">centos7虚拟化</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">SetCreed</div><div class="author-info__description">读书、写代码、看电影</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">79</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/setcreed"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="/img/qq.jpg" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="/img/wechat_account.jpg" target="_blank" title="微信"><i class="fab fa-weixin"></i></a><a class="social-icon" href="https://github.com/setcreed" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:cwzdzg@foxmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF%E4%BB%8B%E7%BB%8D"><span class="toc-text">容器技术介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF%E5%8F%98%E9%9D%A9%E4%BA%86%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E6%8A%80%E6%9C%AF"><span class="toc-text">虚拟化技术变革了数据中心技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E5%86%8D%E6%AC%A1%E9%A2%A0%E8%A6%86IT%E4%B8%9A%E7%95%8C"><span class="toc-text">容器再次颠覆IT业界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%B9%E5%99%A8"><span class="toc-text">什么是容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="toc-text">对比虚拟化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E4%B8%8ELXD-LXC"><span class="toc-text">Docker与LXD &#x2F; LXC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E4%BB%8B%E7%BB%8D"><span class="toc-text">Docker介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LXD%E4%BB%8B%E7%BB%8D"><span class="toc-text">LXD介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E8%80%85%E6%AF%94%E8%BE%83"><span class="toc-text">两者比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF"><span class="toc-text">其他容器技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenVZ"><span class="toc-text">OpenVZ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FreeBSD-jail"><span class="toc-text">FreeBSD jail</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WPARs"><span class="toc-text">WPARs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solaris-Containers"><span class="toc-text">Solaris Containers</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="toc-text">Docker的安装和使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#docker%E4%BB%8B%E7%BB%8D"><span class="toc-text">docker介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-text">Docker的安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85ubuntu%E8%BD%AF%E4%BB%B6%E4%BB%93%E5%BA%93Docker"><span class="toc-text">安装ubuntu软件仓库Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0%E7%9A%84Docker"><span class="toc-text">安装最新的Docker</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84dokcer%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-text">简单的dokcer的命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E6%9C%89%E5%85%B3%E7%9A%84%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="toc-text">Docker有关的名词解释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E9%95%9C%E5%83%8F"><span class="toc-text">Docker镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AF%8F%E4%B8%80%E4%B8%AA%E6%98%A0%E5%83%8F%E9%83%BD%E6%9C%89%E5%94%AF%E4%B8%80%E7%9A%84ID%EF%BC%88SHA256%E7%9A%84%E5%89%8D6%E4%B8%AA%E5%AD%97%E8%8A%82%EF%BC%89"><span class="toc-text">每一个映像都有唯一的ID（SHA256的前6个字节）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AF%8F%E4%B8%80%E4%B8%AA%E5%AE%B9%E5%99%A8%E4%B9%9F%E6%9C%89%E5%94%AF%E4%B8%80%E7%9A%84ID"><span class="toc-text">每一个容器也有唯一的ID</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-text">Docker注册中心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker%E5%91%BD%E4%BB%A4"><span class="toc-text">Docker命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E6%98%A0%E5%83%8F"><span class="toc-text">搜索映像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E4%BA%92%E7%99%BB%E5%BD%95"><span class="toc-text">交互登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E4%B8%8E%E6%98%A0%E5%83%8F%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-text">容器与映像的变化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E7%AE%A1%E7%90%86%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-text">日常管理的命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%98%A0%E5%83%8F"><span class="toc-text">创建映像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%96%B0%E6%98%A0%E5%83%8F%E5%88%9B%E5%BB%BA%E5%AE%B9%E5%99%A8"><span class="toc-text">基于新映像创建容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E5%8F%B0%E8%BF%90%E8%A1%8C%E5%AE%B9%E5%99%A8"><span class="toc-text">后台运行容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-text">查看日志</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E6%9C%8D%E5%8A%A1"><span class="toc-text">容器运行服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8CApache%E6%9C%8D%E5%8A%A1"><span class="toc-text">运行Apache服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8"><span class="toc-text">服务自动启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E6%98%A0%E5%83%8F"><span class="toc-text">创建新映像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Dockerfiles%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA%E6%98%A0%E5%83%8F"><span class="toc-text">使用Dockerfiles自动创建映像</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LXD%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="toc-text">LXD安装与使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#LXD%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-text">LXD的安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LXD%E5%B8%B8%E7%94%A8%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="toc-text">LXD常用管理命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A4%E4%BA%92%E7%99%BB%E5%BD%95%E5%AE%B9%E5%99%A8"><span class="toc-text">交互登录容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LXD%E7%89%B9%E7%82%B9"><span class="toc-text">LXD特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lxd%E5%88%9B%E5%BB%BA%E5%AE%B9%E5%99%A8"><span class="toc-text">lxd创建容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E6%98%A0%E5%83%8F%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">远程映像存储服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E8%BF%9C%E7%A8%8B%E5%A4%8D%E5%88%B6%E6%98%A0%E5%83%8F"><span class="toc-text">从远程复制映像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%B9%E5%99%A8"><span class="toc-text">创建容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="toc-text">上传下载文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%83%8F%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E9%97%B4%E9%9A%94"><span class="toc-text">映像自动更新间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%B8%85%E9%99%A4%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E6%98%A0%E5%83%8F"><span class="toc-text">自动清除未使用的映像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%85%8D%E7%BD%AE"><span class="toc-text">查看配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85apache2%E6%9C%8D%E5%8A%A1"><span class="toc-text">安装apache2服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%96%E7%BD%91%E8%AE%BF%E9%97%AE"><span class="toc-text">外网访问</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/7ac9a020/" title="k8s-informer深入学习"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252321591.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="k8s-informer深入学习"/></a><div class="content"><a class="title" href="/posts/7ac9a020/" title="k8s-informer深入学习">k8s-informer深入学习</a><time datetime="2022-12-01T09:56:52.000Z" title="发表于 2022-12-01 17:56:52">2022-12-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/89a3df7f/" title="go刷题基础篇"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go刷题基础篇"/></a><div class="content"><a class="title" href="/posts/89a3df7f/" title="go刷题基础篇">go刷题基础篇</a><time datetime="2022-09-18T22:21:26.000Z" title="发表于 2022-09-19 06:21:26">2022-09-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/d36c6e2c/" title="istio基础"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="istio基础"/></a><div class="content"><a class="title" href="/posts/d36c6e2c/" title="istio基础">istio基础</a><time datetime="2022-08-04T14:42:19.000Z" title="发表于 2022-08-04 22:42:19">2022-08-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/e385a1/" title="rust基础"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="rust基础"/></a><div class="content"><a class="title" href="/posts/e385a1/" title="rust基础">rust基础</a><time datetime="2022-07-26T00:01:34.000Z" title="发表于 2022-07-26 08:01:34">2022-07-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/419e63b4/" title="go刷题"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/setcreed/CDN@latest/img/202202252321591.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go刷题"/></a><div class="content"><a class="title" href="/posts/419e63b4/" title="go刷题">go刷题</a><time datetime="2022-07-18T23:53:36.000Z" title="发表于 2022-07-19 07:53:36">2022-07-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By SetCreed</div><div class="footer_custom_text"><p><a style="margin-inline:5px" target="_blank" href="https://hexo.io/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为 Hexo" alt="HEXO"></a><a style="margin-inline:5px" target="_blank" href="https://butterfly.js.org/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用 Butterfly" alt="Butterfly"></a><a style="margin-inline:5px" target="_blank" href="https://github.com/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由 GitHub 托管" alt="GitHub"></a><a style="margin-inline:5px" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" alt="img" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://unpkg.com/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script><script src="https://unpkg.com/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://unpkg.com/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
